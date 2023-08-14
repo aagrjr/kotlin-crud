@@ -7,43 +7,41 @@ import com.example.demokotlin.model.Topic
 import com.example.demokotlin.model.payload.NewTopicPayload
 import com.example.demokotlin.model.payload.UpdateTopicPayload
 import com.example.demokotlin.model.response.TopicResponse
+import com.example.demokotlin.repository.TopicRepository
 import org.springframework.stereotype.Service
 
 @Service
 class TopicService(
-        private var topics: List<Topic> = ArrayList(),
-        private val topicViewMapper: TopicResponseMapper,
-        private val topicFormMapper: NewTopicPayloadMapper,
+        private val repository: TopicRepository,
+        private val topicResponseMapper: TopicResponseMapper,
+        private val topicPayloadMapper: NewTopicPayloadMapper,
 ) {
 
     fun list(): List<TopicResponse> {
-        return topics.stream().map { topicViewMapper.map(it) }.toList()
+        return repository.findAll().stream().map { topicResponseMapper.map(it) }.toList()
     }
 
     fun findById(id: Long): TopicResponse {
         val topic = getTopic(id)
-        return topicViewMapper.map(topic)
+        return topicResponseMapper.map(topic)
     }
 
-    fun create(dto: NewTopicPayload): TopicResponse {
-        val topic = topicFormMapper.map(dto)
-        topic.id = topics.size.toLong() + 1
-        topics = topics.plus(topic)
-        return topicViewMapper.map(topic)
+    fun create(payload: NewTopicPayload): TopicResponse {
+
+        return topicResponseMapper.map(repository.save(topicPayloadMapper.map(payload)))
     }
 
-    fun update(id: Long, dto: UpdateTopicPayload): TopicResponse {
-        val topic = getTopic(id)
-        topics = topics.minus(topic).plus(topic.copy(title = dto.title, message = dto.message))
-        return topics.last().let { topicViewMapper.map(it) }
+    fun update(id: Long, payload: UpdateTopicPayload): TopicResponse {
+        var topic = getTopic(id)
+        topic = topic.copy(title = payload.title, message = payload.message)
+        return topicResponseMapper.map(repository.save(topic))
     }
 
     fun delete(id: Long) {
-        val topic = getTopic(id)
-        topics = topics.minus(topic)
+        repository.deleteById(id)
     }
 
     private fun getTopic(id: Long): Topic {
-        return topics.stream().filter { topic -> topic.id == id }.findFirst().orElseThrow { NotFoundException("Topic not found") }
+        return repository.findById(id).orElseThrow { NotFoundException("Topic not found") }
     }
 }
