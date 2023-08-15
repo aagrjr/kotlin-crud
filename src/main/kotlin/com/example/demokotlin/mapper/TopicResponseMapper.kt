@@ -13,7 +13,8 @@ class TopicResponseMapper : Mapper<Topic, TopicResponse> {
                 title = parameter.title,
                 message = parameter.message,
                 status = parameter.status,
-                creationDate = parameter.creationDate
+                creationDate = parameter.creationDate,
+                updatedDate = parameter.updatedDate
         )
     }
 }

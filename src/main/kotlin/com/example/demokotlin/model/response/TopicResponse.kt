@@ -8,5 +8,6 @@ data class TopicResponse(
         val title: String,
         val message: String,
         val status: StatusTopic,
-        val creationDate: LocalDateTime
+        val creationDate: LocalDateTime,
+        val updatedDate: LocalDateTime?,
 )

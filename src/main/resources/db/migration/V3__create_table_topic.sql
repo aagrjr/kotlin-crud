@@ -1,4 +1,4 @@
-CREATE TABLE TOPIC (
+CREATE TABLE topic (
   id bigint NOT NULL AUTO_INCREMENT,
   title varchar(50) NOT NULL,
   message varchar(300) NOT NULL,
@@ -7,6 +7,6 @@ CREATE TABLE TOPIC (
   course_id bigint NOT NULL,
   author_id bigint NOT NULL,
   primary key (id),
-  foreign key (course_id) references COURSE (id),
-  foreign key (author_id) references AUTHOR (id)
+  foreign key (course_id) references course (id),
+  foreign key (author_id) references author (id)
 );

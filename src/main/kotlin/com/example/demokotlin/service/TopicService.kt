@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class TopicService(
@@ -45,7 +46,7 @@ class TopicService(
     @CacheEvict(value = ["topics"], allEntries = true)
     fun update(id: Long, payload: UpdateTopicPayload): TopicResponse {
         var topic = getTopic(id)
-        topic = topic.copy(title = payload.title, message = payload.message)
+        topic = topic.copy(title = payload.title, message = payload.message, updatedDate = LocalDateTime.now())
         return topicResponseMapper.map(repository.save(topic))
     }
 
