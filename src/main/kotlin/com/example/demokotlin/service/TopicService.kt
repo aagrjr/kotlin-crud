@@ -6,6 +6,7 @@ import com.example.demokotlin.mapper.TopicResponseMapper
 import com.example.demokotlin.model.Topic
 import com.example.demokotlin.model.payload.NewTopicPayload
 import com.example.demokotlin.model.payload.UpdateTopicPayload
+import com.example.demokotlin.model.response.TopicPerCategoryResponse
 import com.example.demokotlin.model.response.TopicResponse
 import com.example.demokotlin.repository.TopicRepository
 import jakarta.transaction.Transactional
@@ -52,6 +53,10 @@ class TopicService(
     @CacheEvict(value = ["topics"], allEntries = true)
     fun delete(id: Long) {
         repository.deleteById(id)
+    }
+
+    fun report(): List<TopicPerCategoryResponse> {
+        return repository.report()
     }
 
     private fun getTopic(id: Long): Topic {

@@ -2,6 +2,7 @@ package com.example.demokotlin.controller
 
 import com.example.demokotlin.model.payload.NewTopicPayload
 import com.example.demokotlin.model.payload.UpdateTopicPayload
+import com.example.demokotlin.model.response.TopicPerCategoryResponse
 import com.example.demokotlin.model.response.TopicResponse
 import com.example.demokotlin.service.TopicService
 import jakarta.validation.Valid
@@ -50,5 +51,11 @@ class TopicController(private val service: TopicService) {
     @ResponseStatus(HttpStatus.ACCEPTED)
     fun delete(@PathVariable id: Long) {
         return service.delete(id)
+    }
+
+    @GetMapping("/report")
+    @ResponseStatus(HttpStatus.OK)
+    fun report(): List<TopicPerCategoryResponse> {
+        return service.report()
     }
 }
