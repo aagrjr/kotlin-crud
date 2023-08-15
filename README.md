@@ -15,3 +15,10 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+### To run the project
+
+```
+gradle build
+docker build -t forum -f Dockerfile . 
+docker run -p 8080:8080 forum
+```
