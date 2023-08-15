@@ -5,6 +5,10 @@ import com.example.demokotlin.model.payload.UpdateTopicPayload
 import com.example.demokotlin.model.response.TopicResponse
 import com.example.demokotlin.service.TopicService
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,8 +21,9 @@ class TopicController(private val service: TopicService) {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun list(): List<TopicResponse> {
-        return service.list()
+    fun list(@RequestParam(required = false) courseName: String?,
+             @PageableDefault(size = 10, page = 0, sort = ["creationDate"], direction = Sort.Direction.DESC) page: Pageable): Page<TopicResponse> {
+        return service.list(courseName, page)
     }
 
     @GetMapping("/{id}")

@@ -8,6 +8,8 @@ import com.example.demokotlin.model.payload.NewTopicPayload
 import com.example.demokotlin.model.payload.UpdateTopicPayload
 import com.example.demokotlin.model.response.TopicResponse
 import com.example.demokotlin.repository.TopicRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,8 +19,10 @@ class TopicService(
         private val topicPayloadMapper: NewTopicPayloadMapper,
 ) {
 
-    fun list(): List<TopicResponse> {
-        return repository.findAll().stream().map { topicResponseMapper.map(it) }.toList()
+    fun list(courseName: String?,
+             page: Pageable): Page<TopicResponse> {
+        val topics = if (courseName == null) repository.findAll(page) else repository.findByCourseName(courseName, page)
+        return topics.map { topicResponseMapper.map(it) }
     }
 
     fun findById(id: Long): TopicResponse {
