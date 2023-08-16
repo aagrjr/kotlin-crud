@@ -16,7 +16,7 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import java.util.*
 
-class TopicServiceTests {
+class TopicServiceTest {
     private val topicPage = PageImpl(listOf(
             TopicTest.build()
     ))
