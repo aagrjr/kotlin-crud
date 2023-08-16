@@ -1,6 +1,7 @@
 package com.example.demokotlin.model.response
 
 import com.example.demokotlin.model.StatusTopic
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class TopicResponse(
@@ -10,4 +11,4 @@ data class TopicResponse(
         val status: StatusTopic,
         val creationDate: LocalDateTime,
         val updatedDate: LocalDateTime?,
-)
+) : Serializable

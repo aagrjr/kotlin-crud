@@ -15,17 +15,16 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
-### To run mysql database
+### install and run dependencies
 
 ```
-docker pull mysql:latest
-docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_PASSWORD=root mysql:latest
+docker compose up -d
 ```
 
-### To run the project
+### create a image and run application
 
 ```
 gradle build
 docker build -t forum -f Dockerfile . 
-docker run -p 8080:8080 forum
+docker run -p 8080:8080 -p 6379:6379 forum
 ```

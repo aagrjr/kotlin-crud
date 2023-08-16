@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class AuthorService(private val repository: AuthorRepository) {
 
-    @Cacheable("author")
+    @Cacheable(cacheNames = ["author"], key = "#root.method.name")
     fun findById(id: Long): Author {
         return repository.findById(id).orElseThrow { NotFoundException("Author not found") }
     }

@@ -24,7 +24,7 @@ class TopicService(
         private val topicPayloadMapper: NewTopicPayloadMapper,
 ) {
 
-    @Cacheable("topics")
+    @Cacheable(cacheNames = ["topics"], key = "#root.method.name")
     fun list(courseName: String?,
              page: Pageable): Page<TopicResponse> {
         val topics = if (courseName == null) repository.findAll(page) else repository.findByCourseName(courseName, page)

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class CourseService(private val repository: CourseRepository) {
 
-    @Cacheable("courses")
+    @Cacheable(cacheNames = ["courses"], key = "#root.method.name")
     fun findById(id: Long): Course {
         return repository.findById(id).orElseThrow { NotFoundException("Course not found") }
     }
